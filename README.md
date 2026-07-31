@@ -11,6 +11,11 @@
 
 The **Smart Attendance Management System** is a Flask-based web app built to replace manual attendance registers. Admins can log in, manage a student list, mark attendance by date, and instantly view attendance percentage reports per student. 🚀
 
+## 🎬 See it in action
+
+▶️ **[View animated project overview](https://vishakhapatidar040.github.io/Attendace_management_system/)**
+
+---
 ## ✨ Key Features
 
 - 🔐 **Admin login** with secure password hashing
