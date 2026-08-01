@@ -2,6 +2,10 @@
 
 {% block title %}Dashboard | Smart Attendance Management System{% endblock %}
 
+{% block extra_head %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+{% endblock %}
+
 {% block content %}
 <section class="section-header">
   <h2>📊 Dashboard</h2>
@@ -20,6 +24,26 @@
   <div class="metric-card">
     <span>⚪ Absent Records</span>
     <strong>{{ summary.absent_count or 0 }}</strong>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="section-header compact-header">
+    <div>
+      <h3>📈 Attendance overview</h3>
+      <p>Overall distribution of present and absent attendance records.</p>
+    </div>
+  </div>
+  {% set present_total = summary.present_count or 0 %}
+  {% set absent_total = summary.absent_count or 0 %}
+  <div class="chart-shell">
+    <div class="chart-copy">
+      <strong>{{ present_total + absent_total }}</strong>
+      <span>Total recorded attendance entries</span>
+    </div>
+    <div class="chart-canvas-wrap">
+      <canvas id="attendancePieChart" aria-label="Attendance pie chart" role="img"></canvas>
+    </div>
   </div>
 </section>
 
@@ -50,4 +74,59 @@
     </table>
   </div>
 </section>
+
+{% block extra_scripts %}
+  <script>
+    (function () {
+      const canvas = document.getElementById('attendancePieChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      if (window.attendancePieChart && typeof window.attendancePieChart.destroy === 'function') {
+        window.attendancePieChart.destroy();
+      }
+      window.attendancePieChart = null;
+
+      const present = {{ (summary.present_count or 0) | tojson }};
+      const absent = {{ (summary.absent_count or 0) | tojson }};
+
+      if (present === 0 && absent === 0) {
+        const wrapper = canvas.closest('.chart-canvas-wrap');
+        if (wrapper) {
+          wrapper.innerHTML = '<div class="empty-chart-state">No attendance data available yet.</div>';
+        }
+        return;
+      }
+
+      window.attendancePieChart = new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+          labels: ['Present', 'Absent'],
+          datasets: [{
+            data: [present, absent],
+            backgroundColor: ['#22c55e', '#ef4444'],
+            borderColor: ['#ffffff', '#ffffff'],
+            borderWidth: 2,
+            hoverOffset: 10,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '62%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: getComputedStyle(document.documentElement).getPropertyValue('--text-primary').trim() || '#e5e7eb',
+                usePointStyle: true,
+                pointStyle: 'circle',
+                padding: 20,
+              },
+            },
+          },
+        },
+      });
+    })();
+  </script>
+{% endblock %}
 {% endblock %}
