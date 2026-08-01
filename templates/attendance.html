@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Attendance | Smart Attendance Management System{% endblock %}
+
+{% block content %}
+<section class="section-header row-between">
+  <div>
+    <h2>Daily Attendance</h2>
+    <p>Mark attendance for the selected date.</p>
+  </div>
+</section>
+
+<section class="panel form-panel">
+  <form method="post">
+    <div class="attendance-toolbar">
+      <label>
+        <span>Select Date</span>
+        <input type="date" name="attendance_date" value="{{ selected_date }}">
+      </label>
+      <p class="hint">Choose a date, mark present or absent, then save.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Roll No</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for student in students %}
+            <tr>
+              <td>{{ student.name }}</td>
+              <td>{{ student.roll_no }}</td>
+              <td>
+                <select name="student_{{ student.id }}">
+                  <option value="Present" {% if attendance_map.get(student.id) == 'Present' %}selected{% endif %}>Present</option>
+                  <option value="Absent" {% if attendance_map.get(student.id, 'Absent') == 'Absent' %}selected{% endif %}>Absent</option>
+                </select>
+              </td>
+            </tr>
+          {% else %}
+            <tr><td colspan="3">Add students before marking attendance.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="form-actions">
+      <button class="button primary" type="submit">Save Attendance</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

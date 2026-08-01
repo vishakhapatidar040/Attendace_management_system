@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Smart Attendance Management System{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Flask • SQLite • Student Attendance</p>
+    <h2>Smart Attendance Management System ✨</h2>
+    <p class="lead">Manage students, mark daily attendance, and generate percentage reports from one clean dashboard.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="{{ url_for('attendance') }}">✅ Mark Attendance</a>
+      {% if admin_logged_in %}
+        <a class="button secondary" href="{{ url_for('dashboard') }}">📊 Open Dashboard</a>
+      {% else %}
+        <a class="button secondary" href="{{ url_for('login') }}">🔐 Admin Login</a>
+      {% endif %}
+    </div>
+    <p class="hero-note">Attendance access is protected. If you are not logged in, you will be redirected to the admin login page.</p>
+  </div>
+
+  <div class="hero-panel">
+    <div class="orbit orbit-one"></div>
+    <div class="orbit orbit-two"></div>
+    <div class="hero-panel-inner">
+    <div class="stat-card">
+      <span>👨‍🎓 Total Students</span>
+      <strong>{{ total_students }}</strong>
+    </div>
+    <div class="stat-card">
+      <span>✅ Present Today</span>
+      <strong>{{ total_present_today }}</strong>
+    </div>
+    <div class="stat-card">
+      <span>📅 Today</span>
+      <strong>{{ today }}</strong>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="card-grid">
+  <article class="info-card">
+    <h3>💡 About the project</h3>
+    <p>This Flask-based app replaces manual attendance registers with a fast digital workflow for schools and institutes.</p>
+  </article>
+  <article class="info-card">
+    <h3>👨‍🎓 Recent students</h3>
+    <ul class="simple-list">
+      {% for student in recent_students %}
+        <li>{{ student.name }} <span>🏷️ {{ student.roll_no }}</span></li>
+      {% else %}
+        <li>No students added yet.</li>
+      {% endfor %}
+    </ul>
+  </article>
+</section>
+{% endblock %}

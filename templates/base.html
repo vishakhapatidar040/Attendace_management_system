@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Smart Attendance Management System{% endblock %}</title>
+  <script>
+    (function () {
+      const theme = localStorage.getItem('sam-theme') || 'system';
+      const animations = localStorage.getItem('sam-animations') || 'on';
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.dataset.animations = animations;
+      document.documentElement.classList.add('theme-ready');
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+<body>
+  <div class="splash-screen" id="splashScreen" aria-hidden="true">
+    <div class="splash-card">
+      <div class="splash-orbit splash-orbit-left"></div>
+      <div class="splash-orbit splash-orbit-right"></div>
+      <p class="splash-kicker">Smart Attendance Management System</p>
+      <h2>Welcome to the future of attendance</h2>
+      <p class="splash-copy">A clean, animated workspace for attendance, reports, and student management.</p>
+      <div class="splash-loader">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="ambient ambient-three"></div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div>
+        <p class="eyebrow">✨ Smart Attendance Management System</p>
+        <h1>Attendance made simple</h1>
+      </div>
+      <nav class="nav-links">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('attendance') }}">📝 Attendance</a>
+        <a href="{{ url_for('settings') }}">⚙️ Settings</a>
+        {% if admin_logged_in %}
+          <a href="{{ url_for('dashboard') }}">📊 Dashboard</a>
+          <a href="{{ url_for('students') }}">👨‍🎓 Students</a>
+          <a href="{{ url_for('reports') }}">📈 Reports</a>
+          <a href="{{ url_for('logout') }}">🚪 Logout</a>
+        {% else %}
+          <a href="{{ url_for('login') }}">🔐 Login</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-stack">
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

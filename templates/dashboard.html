@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Smart Attendance Management System{% endblock %}
+
+{% block content %}
+<section class="section-header">
+  <h2>📊 Dashboard</h2>
+  <p>Quick snapshot of your attendance system.</p>
+</section>
+
+<section class="stats-grid">
+  <div class="metric-card">
+    <span>👨‍🎓 Students</span>
+    <strong>{{ summary.students_count or 0 }}</strong>
+  </div>
+  <div class="metric-card">
+    <span>✅ Present Records</span>
+    <strong>{{ summary.present_count or 0 }}</strong>
+  </div>
+  <div class="metric-card">
+    <span>⚪ Absent Records</span>
+    <strong>{{ summary.absent_count or 0 }}</strong>
+  </div>
+</section>
+
+<section class="panel">
+  <h3>📝 Latest attendance entries</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Roll No</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in latest_records %}
+          <tr>
+            <td>{{ record.name }}</td>
+            <td>{{ record.roll_no }}</td>
+            <td>{{ record.attendance_date }}</td>
+            <td><span class="badge {{ record.status|lower }}">{% if record.status == 'Present' %}✅{% else %}⚪{% endif %} {{ record.status }}</span></td>
+          </tr>
+        {% else %}
+          <tr><td colspan="4">No attendance records yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

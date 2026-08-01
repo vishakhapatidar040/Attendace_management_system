@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Edit' if student else 'Add' }} Student | Smart Attendance Management System{% endblock %}
+
+{% block content %}
+<section class="section-header">
+  <h2>{{ 'Edit' if student else 'Add' }} Student</h2>
+  <p>Capture student details for attendance records.</p>
+</section>
+
+<section class="panel form-panel">
+  <form method="post" class="form-grid">
+    <label>
+      <span>Student Name</span>
+      <input type="text" name="name" value="{{ student.name if student else '' }}" placeholder="Enter student name" required>
+    </label>
+    <label>
+      <span>Roll Number</span>
+      <input type="text" name="roll_no" value="{{ student.roll_no if student else '' }}" placeholder="Enter roll number" required>
+    </label>
+    <label>
+      <span>Section</span>
+      <input type="text" name="section" value="{{ student.section if student else '' }}" placeholder="Enter section">
+    </label>
+    <div class="form-actions">
+      <button class="button primary" type="submit">Save Student</button>
+      <a class="button secondary" href="{{ url_for('students') }}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

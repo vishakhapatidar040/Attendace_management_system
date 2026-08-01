@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Reports | Smart Attendance Management System{% endblock %}
+
+{% block content %}
+<section class="section-header">
+  <h2>Attendance Reports</h2>
+  <p>See attendance totals and percentages per student.</p>
+</section>
+
+<section class="panel">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Roll No</th>
+          <th>Section</th>
+          <th>Present</th>
+          <th>Absent</th>
+          <th>Attendance %</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in report_rows %}
+          {% set total = row.total_marked or 0 %}
+          {% set present = row.present_count or 0 %}
+          {% set percentage = ((present / total) * 100) if total else 0 %}
+          <tr>
+            <td>{{ row.name }}</td>
+            <td>{{ row.roll_no }}</td>
+            <td>{{ row.section or '-' }}</td>
+            <td>{{ present }}</td>
+            <td>{{ row.absent_count or 0 }}</td>
+            <td>{{ '%.1f'|format(percentage) }}%</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="6">No report data available yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

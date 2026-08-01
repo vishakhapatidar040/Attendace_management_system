@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Login | Smart Attendance Management System{% endblock %}
+
+{% block content %}
+<section class="hero login-hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Admin access</p>
+    <h2>Login to continue</h2>
+    <p class="lead">Use the admin credentials to manage students, attendance, and reports.</p>
+
+    <div class="hero-pulse-row">
+      <span class="pulse-pill">Secure access</span>
+      <span class="pulse-pill">Fast workflow</span>
+      <span class="pulse-pill">Clean reports</span>
+    </div>
+
+    <div class="panel form-panel login-panel">
+      <form method="post" class="form-grid login-form">
+        <label>
+          <span>Username</span>
+          <input type="text" name="username" placeholder="admin" required>
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" placeholder="admin123" required>
+        </label>
+        <div class="form-actions">
+          <button class="button primary" type="submit">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="hero-panel">
+    <div class="stat-card">
+      <span>Demo Username</span>
+      <strong>admin</strong>
+    </div>
+    <div class="stat-card">
+      <span>Demo Password</span>
+      <strong>admin123</strong>
+    </div>
+  </div>
+</section>
+{% endblock %}
